@@ -6,7 +6,7 @@ Simulates the behavior of a common elevator. Supports floors with unique codes a
 
 ## Usage
 
-Run `bin/console` to drop into a Pry console with a default Elevator preloaded.
+Run `bin/console` to drop into a Pry console with a default `Elevator` preloaded.
 
 You can issue the following commands to the elevator:
 

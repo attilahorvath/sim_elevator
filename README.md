@@ -6,7 +6,21 @@ Simulates the behavior of a common elevator. Supports floors with unique codes a
 
 ## Usage
 
-TODO: Write usage instructions here
+Run `bin/console` to drop into a Pry console with a default Elevator preloaded.
+
+You can issue the following commands to the elevator:
+
+* `floor` - Get the elevator's current `Floor` object
+* `direction` - Get the elevator's current direction (`:up`, `:down` or `nil`)
+* `add_floor(code)` - Add a new floor to the top of the building with the specified `code` (must be unique)
+* `add_floor_above(base, code)` - Insert a new floor with the specified `code` above the `base` floor
+* `add_floor_below(base, code)` - Insert a new floor with the specified `code` below the `base` floor
+* `get_floor_by_code(code)` - Get the `Floor` object with the specified `code`
+* `press_up_on(code)` - Press the up button on the floor with the specified `code`
+* `press_down_on(code)` - Press the down button on the floor with the specified `code`
+* `move(code)` - Move the elevator instantly to the floor with the specified `code`
+* `step!` - Step the elevator once, moving either up, down or leaving it in place as needed
+* `run!` - Run the elevator processing all the queued requests
 
 ## Development
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
 require 'bundler/setup'
+require 'pry'
 require 'sim_elevator'
 
-# You can add fixtures and/or initialization code here to make experimenting
-# with your gem easier. You can also use a different console, if you like.
+Pry.config.prompt_name = 'SimElevator'
 
-require 'irb'
-IRB.start
+elevator = SimElevator::Elevator.new
+elevator.pry

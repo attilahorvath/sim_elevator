@@ -75,6 +75,18 @@ class ElevatorTest < Minitest::Test
     assert_raises { @elevator.add_floor_below '1' }
   end
 
+  def test_that_it_can_press_up_button_on_a_floor
+    @elevator.press_up_on '3'
+
+    assert_equal true, @elevator.get_floor_by_code('3').up_pressed?
+  end
+
+  def test_that_it_can_press_down_button_on_a_floor
+    @elevator.press_down_on '1'
+
+    assert_equal true, @elevator.get_floor_by_code('1').down_pressed?
+  end
+
   def test_that_it_can_move_to_a_floor_instantly
     @elevator.move '2'
 
@@ -86,23 +98,60 @@ class ElevatorTest < Minitest::Test
   end
 
   def test_that_it_starts_to_move_up_if_called_from_a_floor_above_the_current
-    @elevator.get_floor_by_code('2').press_down!
+    @elevator.press_down_on '2'
     @elevator.step!
 
     assert_equal :up, @elevator.direction
   end
 
+  def test_that_it_starts_to_move_down_if_called_from_a_floor_below_the_current
+    @elevator.press_up_on 'B'
+    @elevator.step!
+
+    assert_equal :down, @elevator.direction
+  end
+
   def test_that_it_will_move_down_if_called_down_from_a_floor_above_the_current
-    @elevator.get_floor_by_code('3').press_down!
+    @elevator.press_down_on '3'
     @elevator.run!
 
     assert_equal :down, @elevator.direction
   end
 
+  def test_that_it_will_move_up_if_called_up_from_a_floor_below_the_current
+    @elevator.press_up_on 'B'
+    @elevator.run!
+
+    assert_equal :up, @elevator.direction
+  end
+
+  def test_that_it_will_start_moving_to_closest_floor_first
+    @elevator.move '1'
+    @elevator.press_up_on 'B'
+    @elevator.press_down_on '2'
+    @elevator.step!
+
+    assert_equal :up, @elevator.direction
+  end
+
   def test_that_it_will_reset_buttons_while_moving_up
-    @elevator.get_floor_by_code('G').press_up!
-    @elevator.get_floor_by_code('1').press_up!
-    @elevator.get_floor_by_code('2').press_up!
+    @elevator.press_up_on 'G'
+    @elevator.press_up_on '1'
+    @elevator.press_up_on '2'
+
+    @elevator.step!
+    @elevator.step!
+    @elevator.step!
+
+    assert_empty @elevator.floors.select(&:elevator_called?)
+  end
+
+  def test_that_it_will_reset_buttons_while_moving_down
+    @elevator.move '3'
+
+    @elevator.press_down_on '3'
+    @elevator.press_down_on '2'
+    @elevator.press_down_on '1'
 
     @elevator.step!
     @elevator.step!

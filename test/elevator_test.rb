@@ -26,7 +26,7 @@ class ElevatorTest < Minitest::Test
   def test_that_it_can_be_initialized_with_a_starting_floor
     @elevator = SimElevator::Elevator.new %w{ 0 1 2 }, '2'
 
-    assert_equal '2', @elevator.floor.code, '2'
+    assert_equal '2', @elevator.floor.code
   end
 
   def test_that_it_doesnt_move_by_default
